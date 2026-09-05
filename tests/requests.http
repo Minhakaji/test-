@@ -1,0 +1,54 @@
+### File nay dung voi extension "REST Client" trong VS Code
+### de test nhanh tung request bang cach bam "Send Request" phia tren moi khoi.
+@baseUrl = http://localhost:3000
+@email = demo@example.com
+@password = matkhaudungB123
+
+### 1. Dang ky tai khoan moi
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### 2. Dang ky lai cung email -> mong doi 409
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### 3. Dang nhap dung -> nhan token
+# @name login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### 4. Dang nhap sai mat khau -> 401
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "sai-mat-khau"
+}
+
+### 5. Xem thong tin tai khoan (thay {{token}} bang token o buoc 3)
+GET {{baseUrl}}/me
+Authorization: Bearer {{token}}
+
+### 6. Xem san pham theo trang thai
+GET {{baseUrl}}/products?status=con_hang
+Authorization: Bearer {{token}}
+
+### 7. Status khong hop le -> 400
+GET {{baseUrl}}/products?status=khong_ton_tai
+Authorization: Bearer {{token}}

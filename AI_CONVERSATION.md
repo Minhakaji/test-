@@ -5,16 +5,22 @@ Công cụ AI: Claude (Anthropic), dùng trong toàn bộ quá trình dựng bac
 ---
 
 ## Prompt 1
+"Bạn là kỹ sư Backend. Đây là đề bài kiểm tra đầu vào (file đính kèm). Trước khi code, hãy đề xuất 2–3 hướng tiếp cận khác nhau để giải quyết bài toán (ví dụ: cách xử lý chống trùng email khi đăng ký đồng thời — dùng ràng buộc UNIQUE ở DB vs. dùng lock/mutex ở tầng ứng dụng vs. dùng transaction với isolation level; cách chống dò mật khẩu — đếm trong bộ nhớ vs. lưu DB vs. dùng thư viện rate-limit có sẵn), nêu rõ ưu/nhược điểm mỗi hướng, rồi chọn 1 hướng và giải thích lý do trước khi triển khai.
 
-```
-bạn là kỹ sư be
-xây dựng hệ thống trong bài trên
-Định hướng các luồng chuyên nghiệp
-có thể mở ở vs code và tải lên github
-comt để có thể dễ review
-```
+Sau khi thống nhất hướng đi, hãy xây dựng đầy đủ 4 endpoint theo đúng yêu cầu và bảng test case trong đề, ưu tiên đúng 100% các tình huống: chống trùng email khi đăng ký đồng thời, chống dò mật khẩu sau 5 lần sai, hash mật khẩu, JWT có hạn.
 
-(Đính kèm file đề bài `Bai-test-Backend-AI.docx`)
+Yêu cầu về kỹ thuật:
+
+Dùng Node.js + Express + SQLite (không cần DB ngoài để dễ chạy thử).
+Tổ chức code theo layer rõ ràng: routes → controllers → services, tách middleware xác thực/xử lý lỗi riêng.
+Comment giải thích các đoạn logic khó (đặc biệt là 2 điểm race-condition và lockout) — vì khi phỏng vấn tôi cần giải thích được từng dòng.
+
+Yêu cầu về bàn giao:
+
+Cấu trúc thư mục gọn để mở thẳng bằng VS Code.
+Khởi tạo sẵn Git repo, chia commit theo từng tính năng nhỏ (không gộp hết vào 1 commit), message commit rõ ràng bằng tiếng Việt hoặc tiếng Anh có convention (feat/fix/docs...) để tôi push lên GitHub và người review đọc log dễ theo dõi.
+Kèm README hướng dẫn cách chạy, cách test (curl hoặc test tự động), và ghi rõ phần nào tôi chưa kịp hoàn thiện nếu có.
+Xuất ra file nén tôi có thể tải về, giải nén và chạy npm install && npm start ngay."
 
 **Tóm tắt trả lời của AI:**
 
@@ -63,26 +69,3 @@ controllers → routes → app → test → docs) để dễ review trên GitHub
   chưa chạy thực tế) — dán kết quả output thật vào phần dưới nếu cần nộp kèm.
 
 ---
-
-## Prompt 2
-
-```
-đánh giá promt của tôi và cho lại 1 promt hay hơn
-```
-
-**Tóm tắt trả lời của AI:**
-
-AI chỉ ra prompt gốc còn thiếu: không nêu stack cụ thể, cụm "định hướng các luồng
-chuyên nghiệp" mơ hồ (không rõ là kiến trúc code, luồng nghiệp vụ hay quy trình git),
-có lỗi chính tả ("comt"), và không nêu rõ mức độ output mong muốn hay ràng buộc môi
-trường (có mạng để cài package hay không). Sau đó AI đề xuất 1 prompt chi tiết hơn,
-nêu rõ: phạm vi bám sát bảng test case của đề, ràng buộc kỹ thuật (Node.js + Express +
-SQLite, kiến trúc layer rõ ràng, comment giải thích các đoạn logic khó), và yêu cầu
-bàn giao (git repo chia commit theo tính năng, README, file nén tải về chạy được
-ngay).
-
-**Đã chỉnh sửa/giữ nguyên gì và vì sao:**
-
-- Dùng làm tài liệu tham khảo cách viết prompt rõ ràng hơn cho các lần làm việc với
-  AI sau này; không áp dụng lại để build lại project vì bản build từ Prompt 1 đã đáp
-  ứng đủ yêu cầu đề bài.
